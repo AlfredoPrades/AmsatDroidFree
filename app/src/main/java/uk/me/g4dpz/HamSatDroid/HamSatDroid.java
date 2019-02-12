@@ -78,6 +78,7 @@ public class HamSatDroid extends ASDActivity implements OnGestureListener {
 	private static final String RESOURCES_CELESTRAK = "RESOURCES_CELESTRAK";
 	private static final String NEW_CELESTRAK = "NEW_CELESTRAK";
 	private static final String AMATEUR_AMSAT = "AMATEUR_AMSAT";
+	private static final String FM_AMATEUR_AMSAT = "FM_AMATEUR_AMSAT";
 	private static final String COLON_NL = ":\n";
 	private static final String FOR_THE_NEXT = ", for the next ";
 	private static final String PASS_PREDICTIONS_FOR_SATELLITE = "Pass predictions for satellite ";
@@ -100,6 +101,7 @@ public class HamSatDroid extends ASDActivity implements OnGestureListener {
 	private static final String BIN_PASS_FILENAME = "prefs.bin";
 	private static final String BIN_ELEM_FILENAME = "elems.bin";
 	private static final String ELEM_URL_AMATEUR_AMSAT = "http://www.amsat.org/amsat/ftp/keps/current/nasabare.txt";
+	private static final String ELEM_URL_FM_AMATEUR_AMSAT = "http://terrik.home.kg/pub/fmrepeater.txt";
 	private static final String ELEM_URL_AMATEUR_CELESTRAK = "http://celestrak.com/NORAD/elements/amateur.txt";
 	private static final String ELEM_URL_WEATHER_CELESTRAK = "http://celestrak.com/NORAD/elements/noaa.txt";
 	private static final String ELEM_URL_CUBESAT_CELESTRAK = "http://celestrak.com/NORAD/elements/cubesat.txt";
@@ -677,8 +679,11 @@ public class HamSatDroid extends ASDActivity implements OnGestureListener {
 
 		try {
 			final String kepSource = HamSatDroid.getKepsSource();
-			if (AMATEUR_AMSAT.equals(kepSource)) {
 
+			if (FM_AMATEUR_AMSAT.equals(kepSource)) {
+				url = new URL(ELEM_URL_FM_AMATEUR_AMSAT);
+			}
+			else if (AMATEUR_AMSAT.equals(kepSource)) {
 				url = new URL(ELEM_URL_AMATEUR_AMSAT);
 			}
 			else if (AMATEUR_CELESTRAK.equals(kepSource)) {
@@ -837,11 +842,17 @@ public class HamSatDroid extends ASDActivity implements OnGestureListener {
 						.setPositiveButton(OK, null).show();
 			}
 			return true;
+		case R.id.MENU_DOWNLOAD_FM_AMATEUR_AMSAT:
+			setKepsSource(FM_AMATEUR_AMSAT);
+			updateKepsTask = new LoadElemNetTask();
+			updateKepsTask.execute(0);
+			return true;
 		case R.id.MENU_DOWNLOAD_AMATEUR_AMSAT:
 			setKepsSource(AMATEUR_AMSAT);
 			updateKepsTask = new LoadElemNetTask();
 			updateKepsTask.execute(0);
 			return true;
+
 		case R.id.MENU_DOWNLOAD_AMATEUR_CELESTRAK:
 			setKepsSource(AMATEUR_CELESTRAK);
 			updateKepsTask = new LoadElemNetTask();

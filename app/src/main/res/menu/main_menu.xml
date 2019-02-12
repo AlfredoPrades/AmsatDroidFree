@@ -35,7 +35,13 @@
 				android:id="@+id/MENU_DOWNLOAD_AMATEUR_AMSAT" 
 				android:title="@string/DownloadAmateurAmsatElem">
 			</item>
-			<item 
+			<item
+				android:visible="true"
+				android:enabled="true"
+				android:id="@+id/MENU_DOWNLOAD_FM_AMATEUR_AMSAT"
+				android:title="@string/DownloadFMAmateurAmsatElem">
+			</item>
+			<item
 				android:visible="true" 
 				android:enabled="true" 
 				android:id="@+id/MENU_DOWNLOAD_AMATEUR_CELESTRAK" 
